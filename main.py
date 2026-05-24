@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime
-from groq import Groq
+import anthropic
 
 
 def load_sop(path: str = "sop.json") -> dict:
@@ -129,17 +129,17 @@ def parse_json_response(raw: str) -> dict:
     }
 
 
-def call_groq(client: Groq, system_prompt: str, messages: list) -> str:
-    groq_messages = [{"role": "system", "content": system_prompt}] + messages
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+def call_claude(client: anthropic.Anthropic, system_prompt: str, messages: list) -> str:
+    response = client.messages.create(
+        model="claude-sonnet-4-5",
         max_tokens=1000,
-        messages=groq_messages
+        system=system_prompt,
+        messages=messages
     )
-    return response.choices[0].message.content
+    return response.content[0].text
 
 
-def generate_summary(client: Groq, state: dict) -> dict:
+def generate_summary(client: anthropic.Anthropic, state: dict) -> dict:
     convo_text = "\n".join(
         f"{m['role'].upper()}: {m['content']}"
         for m in state["conversation_history"]
@@ -170,15 +170,13 @@ Reply ONLY with valid JSON, no markdown fences:
   "recommended_next_action": "what the human team should do next"
 }}"""
 
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+    response = client.messages.create(
+        model="claude-sonnet-4-5",
         max_tokens=1000,
-        messages=[
-            {"role": "system", "content": "Reply only with valid JSON. No markdown."},
-            {"role": "user", "content": prompt}
-        ]
+        system="Reply only with valid JSON. No markdown.",
+        messages=[{"role": "user", "content": prompt}]
     )
-    return parse_json_response(response.choices[0].message.content)
+    return parse_json_response(response.content[0].text)
 
 
 def print_summary(summary: dict):
@@ -218,14 +216,14 @@ def print_summary(summary: dict):
 
 
 def run():
-    api_key = os.environ.get("GROQ_API_KEY")
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
-        print("\n[ERROR] GROQ_API_KEY not set.")
-        print("Set it with:  $env:GROQ_API_KEY='your_key_here'  (PowerShell)")
-        print("Get a free key at: https://console.groq.com\n")
+        print("\n[ERROR] ANTHROPIC_API_KEY not set.")
+        print("Set it with:  $env:ANTHROPIC_API_KEY='your_key_here'  (PowerShell)")
+        print("Get a key at: https://console.anthropic.com\n")
         return
 
-    client = Groq(api_key=api_key)
+    client = anthropic.Anthropic(api_key=api_key)
     sop = load_sop()
 
     state = {
@@ -245,7 +243,7 @@ def run():
 
     print("\n" + "="*60)
     print("   BLOOM AESTHETICS CLINIC — Virtual Receptionist (Aria)")
-    print("   Powered by Groq + LLaMA 3.3 70B")
+    print("   Powered by Anthropic Claude")
     print("="*60)
     print("   Type 'exit' or 'bye' to end the conversation.\n")
 
@@ -285,7 +283,7 @@ def run():
         system_prompt = build_system_prompt(sop, state)
 
         try:
-            raw = call_groq(client, system_prompt, state["conversation_history"])
+            raw = call_claude(client, system_prompt, state["conversation_history"])
             parsed = parse_json_response(raw)
 
         except json.JSONDecodeError:
