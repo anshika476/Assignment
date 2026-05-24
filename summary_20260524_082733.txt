@@ -1,0 +1,15 @@
+CONVERSATION SUMMARY — 2026-05-24 08:27:33
+============================================================
+
+Customer Intent    : The customer wanted to book a Botox appointment at Bloom Aesthetics Clinic
+
+Details Collected  :
+  Service Interest : Botox
+  Prior Treatments : No
+  Heard From       : Google
+
+SOP Gaps           : []
+
+Escalation         : {'occurred': False, 'reason': None}
+
+Recommended Action : Follow up with the customer to confirm their appointment booking and provide any necessary pre-treatment instructions

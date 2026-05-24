@@ -1,0 +1,15 @@
+CONVERSATION SUMMARY — 2026-05-24 08:28:49
+============================================================
+
+Customer Intent    : The customer expressed dissatisfaction with the services and requested the website URL.
+
+Details Collected  :
+  Service Interest : None
+  Prior Treatments : None
+  Heard From       : None
+
+SOP Gaps           : ["The AI was unable to address the customer's complaint directly and did not gather any information about the service issue."]
+
+Escalation         : {'occurred': True, 'reason': 'customer complaint'}
+
+Recommended Action : A human team member should follow up with the customer to resolve the complaint and provide the website URL as requested.

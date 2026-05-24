@@ -1,0 +1,38 @@
+{
+  "business": "Bloom Aesthetics Clinic",
+  "hours": "Monday to Saturday, 9am to 7pm. Closed on Sundays.",
+  "location": "Sector-43, Chandigarh",
+  "services": {
+    "botox": {
+      "price": "from ₹18,000",
+      "description": "Anti-wrinkle injections to smooth expression lines. Results last 3-4 months."
+    },
+    "fillers": {
+      "price": "from ₹22,000",
+      "description": "Dermal fillers for volume, lip enhancement, and contouring. Results last 6-12 months."
+    },
+    "consultation": {
+      "price": "free",
+      "description": "A complimentary 1-on-1 consultation with a qualified practitioner to discuss your goals."
+    }
+  },
+  "booking": {
+    "channels": ["WhatsApp", "website"],
+    "cancellation_policy": "24-hour cancellation notice required. Late cancellations may incur a fee.",
+    "deposit": "A deposit may be required for some treatments. Confirmed at time of booking."
+  },
+  "payment": {
+    "methods": ["card", "bank transfer"],
+    "finance": "Payment plans not currently available."
+  },
+  "practitioners": "All treatments are carried out by qualified and insured aesthetic practitioners.",
+  "aftercare": "Aftercare instructions are provided following every treatment.",
+  "escalate_if": [
+    "customer complaint",
+    "medical question or health concern",
+    "pricing negotiation",
+    "more than 2 unanswered questions in a row",
+    "angry or frustrated sentiment",
+    "explicit request to speak to a human"
+  ]
+}
